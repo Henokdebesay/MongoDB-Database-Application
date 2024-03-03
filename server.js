@@ -1,25 +1,39 @@
 const express = require("express");
-const { default: mongoose } = require("mongoose");
 const app = express();
 const PORT = 3000;
+const bodyParser = require("body-parser");
+const premiereLeague = require('./routes/premiereRoutes.js');
+const laLiga = require('./routes/laligaRoutes.js');
+const seriaA = require('./routes/seriaRoutes.js');
 
-app.use(express.json());
+const requestLogger = (req, res, next) => {
+    console.log(`[${new Date().toLocaleString()}] ${req.method} ${req.url}`);
+    next(); // 
+};
 
-mongoose.connect('mongodb+srv://henokdebesay1:henokdebesay1@cluster0.jme2bid.mongodb.net/')
+app.use(bodyParser.json());
 
-app.listen(PORT, ()=> {
-    console.log(`I am listening at localhost:${PORT}`)
-})
+app.use(requestLogger);
 
-app.get('/', (req, res)=> {
-  
-    res.status(200).json(
-        [
-            {name: 'Henok',
-            age: 30},
-            {name: 'Samsom',
-                age: 35},
-            {name: 'Senait',
-                age: 40}
-        ])
-})
+// Static files
+app.use(express.static('public'));
+app.use('/css', express.static(__dirname + 'public/css'));
+app.use('/js', express.static(__dirname + 'public/js'));
+app.use('/img', express.static(__dirname + 'public/img'));
+
+// Set views
+app.set("views", "./views");
+app.set("view engine", "ejs");
+
+app.get('', (req, res) => {
+    res.render("index", { text: "Here at John & John, we love our customers!" });
+});
+
+app.use("/premiereleague", premierLeague);
+app.use("/laliga", laLiga);
+app.use("/seriaa", seriaA);
+app.use(express.urlencoded({ extended: false }));
+
+app.listen(PORT, () => {
+    console.log(`Server running on port: ${PORT}`);
+});
