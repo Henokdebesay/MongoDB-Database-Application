@@ -9,7 +9,7 @@ const premiereSchema = new mongoose.Schema({
 }, { collection: 'premiereTeams' });;
 
 // Create a model from the schema
-const premiereModel = mongoose.model('premiereModel', premiereSchema);
+ const premiereModel = mongoose.model('premiereModel', premiereSchema);
 
 const newTeam = new premiereModel({
     "name": "Manchester United",
@@ -25,3 +25,6 @@ const newTeam = new premiereModel({
   .catch((error) => {
     console.error('Error saving data:', error);
   });
+
+
+  module.exports = mongoose.model('premiereModel', premiereSchema);

@@ -1,6 +1,6 @@
 const express = require("express");
-
 const router = express.Router();
+// const premiereModel = require('./schemas/premiereLeague');
 
 let teams = [
     {
@@ -8,7 +8,6 @@ let teams = [
         founded: 1878,
         stadium: "Old Trafford",
         city: "Manchester",
-        id: 1
     }
 ]
 

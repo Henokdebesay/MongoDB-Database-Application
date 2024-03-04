@@ -9,7 +9,7 @@ const seriaSchema = new mongoose.Schema({
 }, { collection: 'seriaTeams' });;
 
 // Create a model from the schema
-const seriaModel = mongoose.model('seriaModel', seriaSchema);
+ const seriaModel = mongoose.model('seriaModel', seriaSchema);
 
 const newTeam = new seriaModel({
     "name": "Juventus",
@@ -25,3 +25,6 @@ const newTeam = new seriaModel({
   .catch((error) => {
     console.error('Error saving data:', error);
   });
+
+
+  module.exports = mongoose.model('seriaModel', seriaSchema);

@@ -1,6 +1,6 @@
 const express = require("express");
-
 const router = express.Router();
+// const seriaModel = require('./schemas/seriaA');
 
 let teams = [
     {
@@ -8,7 +8,6 @@ let teams = [
         founded: 1897,
         stadium: "Allianz Stadium",
         city: "Turin, Italy",
-        id: 1
     }
 ]
 

@@ -9,7 +9,7 @@ const laLigaSchema = new mongoose.Schema({
 }, { collection: 'laLigaTeams' });;
 
 // Create a model from the schema
-const laLigaModel = mongoose.model('laLigaModel', laLigaSchema);
+ const laLigaModel = mongoose.model('laLigaModel', laLigaSchema);
 
 const newTeam = new laLigaModel({
     "name": "Real Madrid",
@@ -25,3 +25,5 @@ const newTeam = new laLigaModel({
   .catch((error) => {
     console.error('Error saving data:', error);
   });
+
+module.exports = mongoose.model('laLigaModel', laLigaSchema);
