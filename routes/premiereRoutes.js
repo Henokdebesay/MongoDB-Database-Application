@@ -11,6 +11,12 @@ let teams = [
         id: 1
     }
 ]
+
+router.get('/', (req,res) => {
+    res.send(teams)
+
+})
+
 router.get('/', (req,res) => {
     const { id } = req.params;
     const numericId = parseInt(id);
