@@ -24,8 +24,8 @@ app.get('/', (req, res) => {
 });
 
 app.use("/premiere", premiereLeague);
-// app.use("/laliga", laLiga);code
-// app.use("/seriaa", seriaA);
+app.use("/laliga", laLiga);code
+app.use("/seriaa", seriaA);
 app.use(express.urlencoded({ extended: false }));
 
 app.listen(PORT, () => {
