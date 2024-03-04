@@ -17,15 +17,15 @@ app.use(requestLogger);
 
 
 
-// // Set views
-// app.set("views", "./views");
+// Set views
+app.set("views", "./views");
 
-// app.get('', (req, res) => {
-//     res.render("index", { text: "Here at John & John, we love our customers!" });
-// });
+app.get('/', (req, res) => {
+    res.send("HELLO");
+});
 
-// app.use("/premiereleague", premiereLeague);
-// app.use("/laliga", laLiga);
+app.use("/premiere", premiereLeague);
+// app.use("/laliga", laLiga);code
 // app.use("/seriaa", seriaA);
 // app.use(express.urlencoded({ extended: false }));
 

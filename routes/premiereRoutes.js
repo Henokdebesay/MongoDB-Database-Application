@@ -31,9 +31,6 @@ router.post('/', (req,res) => {
     res.send(`${newTeam.name}`)
 })
 
-router.get('/:id', (req, res) => {
-    res.send(`${teams}`)
-});
 
 router.delete('/:id', (req,res) => {
     const { id } = req.params;
@@ -41,7 +38,7 @@ router.delete('/:id', (req,res) => {
 
      teams = teams.filter(team => team.id !== numericId)
  
-     res.send(`shopper with ${numericId} ID is deleted`)
+     res.send(`Team with ${numericId} ID is deleted`)
  })
 
  router.put('/:id', (req,res) => {
@@ -64,7 +61,7 @@ router.delete('/:id', (req,res) => {
         team.city = city;
      }
 
-     res.send(`Shopper ${numericId} has updated`)
+     res.send(`Team ${numericId} has updated`)
  })
 
 
