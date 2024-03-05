@@ -1,13 +1,65 @@
 const express = require("express");
 const router = express.Router();
-// const seriaModel = require('./schemas/seriaA');
+const seriaModel = require('../schemas/seriaA');
 
 let teams = [
     {
+        name: "Inter Milan",
+        founded: 1878,
+        stadium: "Old Trafford",
+        city: "Milan",
+    },
+    {
         name: "Juventus",
-        founded: 1897,
-        stadium: "Allianz Stadium",
-        city: "Turin, Italy",
+        founded: 1878,
+        stadium: "Old lady",
+        city: "Turin",
+    },
+    {
+        name: "AC Milan",
+        founded: 1880,
+        stadium: " Etihad Stadium",
+        city: "Milan",
+    },
+    {
+        name: "Bologna",
+        founded: 1878,
+        stadium: "Old Trafford",
+        city: "Bologna",
+    },
+    {
+        name: "Roma",
+        founded: 1878,
+        stadium: "Old Trafford",
+        city: "Rome",
+    },
+    {
+        name: "Atalanta",
+        founded: 1878,
+        stadium: "Old Trafford",
+        city: "Atalanta",
+    },
+    {
+        name: "Napoli",
+        founded: 1878,
+        stadium: "Old Trafford",
+        city: "Napoli",
+    },
+    {
+        name: "Fiorentina",
+        founded: 1878,
+        stadium: "Fly Emirateas",
+        city: "Florence",
+    },{
+        name: "Lazio",
+        founded: 1878,
+        stadium: "Old Trafford",
+        city: "Rome",
+    },{
+        name: "Torino",
+        founded: 1878,
+        stadium: "Old Trafford",
+        city: "Torin",
     }
 ]
 
@@ -16,25 +68,31 @@ router.get('/', (req,res) => {
 
 })
 
-router.get('/', (req,res) => {
-    const { id } = req.params;
-    const numericId = parseInt(id);
+router.get('/', (req, res) => {
+    seriaModel.find()
+        .then((teams) => {
+            res.send(teams);
+        })
+        .catch((error) => {
+            console.error('Error fetching teams:', error);
+            res.status(500).send("Error fetching teams");
+        });
+});
 
-    const team = teams.find(team => team.id === numericId);
-    
-    if (team) {
-        res.send(team);
-    } else {
-        res.status(404).send("Team not found");
-    }
+router.post('/', (req, res) => {
+    const newTeamsData = req.body; // 
 
-})
-
-router.post('/', (req,res) => {
-    const newTeam = req.body;
-    teams.push(newTeam);
-    res.send(`${newTeam.name}`)
-})
+    // Insert all new teams into the database
+    seriaModel.insertMany(teams)
+        .then((result) => {
+            console.log('Data saved successfully:', result);
+            res.send(result); // Send back the saved teams data if needed
+        })
+        .catch((error) => {
+            console.error('Error saving data:', error);
+            res.status(500).send("Error saving data");
+        });
+});
 
 
 router.delete('/:id', (req,res) => {

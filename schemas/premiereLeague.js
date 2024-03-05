@@ -6,7 +6,7 @@ const premiereSchema = new mongoose.Schema({
   founded: Number,
   stadium: String,
   city: String
-}, { collection: 'premiereTeams' });;
+}, { collection: 'premiereTeams' });
 
 // Create a model from the schema
  const premiereModel = mongoose.model('premiereModel', premiereSchema);
@@ -18,13 +18,13 @@ const newTeam = new premiereModel({
     "city": "Manchester, England"
   });
 
-  newTeam.save()
-  .then((result) => {
-    console.log('Data saved successfully:', result);
-  })
-  .catch((error) => {
-    console.error('Error saving data:', error);
-  });
+  // newTeam.insertMany()
+  // .then((result) => {
+  //   console.log('Data saved successfully:', result);
+  // })
+  // .catch((error) => {
+  //   console.error('Error saving data:', error);
+  // });
 
 
   module.exports = mongoose.model('premiereModel', premiereSchema);

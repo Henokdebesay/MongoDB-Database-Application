@@ -18,13 +18,13 @@ const newTeam = new seriaModel({
     "city": "Turin, Italy"
   });
 
-  newTeam.save()
-  .then((result) => {
-    console.log('Data saved successfully:', result);
-  })
-  .catch((error) => {
-    console.error('Error saving data:', error);
-  });
+  // newTeam.insertMany()
+  // .then((result) => {
+  //   console.log('Data saved successfully:', result);
+  // })
+  // .catch((error) => {
+  //   console.error('Error saving data:', error);
+  // });
 
 
   module.exports = mongoose.model('seriaModel', seriaSchema);
