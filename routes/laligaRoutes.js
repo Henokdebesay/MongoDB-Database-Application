@@ -3,6 +3,7 @@ const router = express.Router();
 const premiereModel = require('../schemas/premiereLeague.js');
 const { connect } = require('../module/conn.js');
 const { MongoClient } = require('mongodb');
+const { ObjectId } = require('mongodb');
 
 
 // let teams = [
@@ -70,7 +71,7 @@ router.get('/', async (req, res) => {
     try {
         const db = await connect();
         const collection = db.collection("La_Liga");
-        const results = await collection.find({}).limit(4).toArray();
+        const results = await collection.find({}).toArray();
         res.status(200).send(results);
     } catch (error) {
         console.error("Error retrieving data:", error);
@@ -110,7 +111,7 @@ router.delete('/:id', async (req, res) => {
         const db = await connect();
         const collection = db.collection("La_Liga");
         const id = req.params.id;
-        await collection.deleteOne({ _id: id });
+        await collection.deleteOne({ _id: new ObjectId(id) });
         res.status(200).send("Data deleted successfully");
     } catch (error) {
         console.error("Error deleting data:", error);
