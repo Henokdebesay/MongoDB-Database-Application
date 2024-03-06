@@ -99,7 +99,7 @@ router.put('/:id', async (req, res) => {
         const collection = db.collection("Premiere_League");
         const id = req.params.id;
         const updatedData = req.body; 
-        await collection.updateOne({ _id: id }, { $set: updatedData });
+        await collection.updateOne({ _id: new ObjectId(id) }, { $set: updatedData });
         res.status(200).send("Data updated successfully");
     } catch (error) {
         console.error("Error updating data:", error);
