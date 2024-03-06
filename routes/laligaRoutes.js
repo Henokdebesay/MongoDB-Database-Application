@@ -1,117 +1,122 @@
 const express = require("express");
 const router = express.Router();
-const laLigaModel = require('../schemas/laLiga');
+const premiereModel = require('../schemas/premiereLeague.js');
+const { connect } = require('../module/conn.js');
+const { MongoClient } = require('mongodb');
 
 
-
-let teams = [
-    {
-        name: "Real Madrid",
-        founded: 1878,
-        stadium: "Old Trafford",
-        city: "Madrid",
-    },
-    {
-        name: "Girona",
-        founded: 1878,
-        stadium: "Old lady",
-        city: "Girona",
-    },
-    {
-        name: "Barcelona",
-        founded: 1880,
-        stadium: " Etihad Stadium",
-        city: "Barcelona",
-    },
-    {
-        name: "Athletico Madrid",
-        founded: 1878,
-        stadium: "Old Trafford",
-        city: "Madrid",
-    },
-    {
-        name: "Real Betis",
-        founded: 1878,
-        stadium: "Old Trafford",
-        city: "Betis",
-    },
-    {
-        name: "Real Sociedad",
-        founded: 1878,
-        stadium: "Old Trafford",
-        city: "Sociedad",
-    },
-    {
-        name: "Las Palmas",
-        founded: 1878,
-        stadium: "Old Trafford",
-        city: "Palmas",
-    },
-    {
-        name: "Valencia",
-        founded: 1878,
-        stadium: "Fly Emirateas",
-        city: "Valencia",
-    },{
-        name: "Osasuna",
-        founded: 1878,
-        stadium: "Old Trafford",
-        city: "Osasuna",
-    },{
-        name: "Getafe",
-        founded: 1878,
-        stadium: "Old Trafford",
-        city: "Getafe",
-    }
-]
-
-router.get('/', (req,res) => {
-    res.send(teams)
-
-})
+// let teams = [
+//     {
+//         name: "Manchester United",
+//         founded: 1878,
+//         stadium: "Old Trafford",
+//         city: "Manchester",
+//     },
+//     {
+//         name: "Liverpool",
+//         founded: 1878,
+//         stadium: "Old lady",
+//         city: "Liverpool",
+//     },
+//     {
+//         name: "Manchester United",
+//         founded: 1880,
+//         stadium: " Etihad Stadium",
+//         city: "Manchester",
+//     },
+//     {
+//         name: "Chelsea",
+//         founded: 1878,
+//         stadium: "Old Trafford",
+//         city: "London",
+//     },
+//     {
+//         name: "Everton",
+//         founded: 1878,
+//         stadium: "Old Trafford",
+//         city: "Liverpool",
+//     },
+//     {
+//         name: "Crystal Palace",
+//         founded: 1878,
+//         stadium: "Old Trafford",
+//         city: "London",
+//     },
+//     {
+//         name: "Totenham",
+//         founded: 1878,
+//         stadium: "Old Trafford",
+//         city: "London",
+//     },
+//     {
+//         name: "Arsenal",
+//         founded: 1878,
+//         stadium: "Fly Emirateas",
+//         city: "London",
+//     },{
+//         name: "Newcastle United",
+//         founded: 1878,
+//         stadium: "Old Trafford",
+//         city: "Newcastle",
+//     },{
+//         name: "Westham United",
+//         founded: 1878,
+//         stadium: "Old Trafford",
+//         city: "London",
+//     }
+// ]
 
 router.get('/', async (req, res) => {
     try {
-        const teams = await laLigaModel.find();
-        res.send(teams);
+        const db = await connect();
+        const collection = db.collection("La_Liga");
+        const results = await collection.find({}).limit(4).toArray();
+        res.status(200).send(results);
     } catch (error) {
-        console.error('Error fetching teams:', error);
-        res.status(500).send("Error fetching teams");
+        console.error("Error retrieving data:", error);
+        res.status(500).send("Internal Server Error");
     }
 });
 
 router.post('/', async (req, res) => {
     try {
-        const newTeamsData = req.body;
-        const result = await laLigaModel.insertMany(newTeamsData);
-        console.log('Data saved successfully:', result);
-        res.send(result);
+        const db = await connect();
+        const collection = db.collection("La_Liga");
+        const newData = req.body; 
+        await collection.insertOne(newData);
+        res.status(201).send("Data added successfully");
     } catch (error) {
-        console.error('Error saving data:', error);
-        res.status(500).send("Error saving data");
-    }
-});
-
-
-router.delete('/:id', async (req, res)=> {
-    try {
-        const { id } = req.params;
-        const numericId = parseInt(id);
-        // Your delete logic here
-    } catch(error) {
-        res.status(500).json({message: error.message});
+        console.error("Error adding data:", error);
+        res.status(500).send("Internal Server Error");
     }
 });
 
 router.put('/:id', async (req, res) => {
     try {
-        const { id } = req.params;
-        const { name, founded, stadium, city } = req.body;
-        const numericId = parseInt(id);
-        // Your update logic here
-    } catch(error) {
-        res.status(500).json({message: error.message});
+        const db = await connect();
+        const collection = db.collection("La_Liga");
+        const id = req.params.id;
+        const updatedData = req.body; 
+        await collection.updateOne({ _id: id }, { $set: updatedData });
+        res.status(200).send("Data updated successfully");
+    } catch (error) {
+        console.error("Error updating data:", error);
+        res.status(500).send("Internal Server Error");
     }
 });
+
+router.delete('/:id', async (req, res) => {
+    try {
+        const db = await connect();
+        const collection = db.collection("La_Liga");
+        const id = req.params.id;
+        await collection.deleteOne({ _id: id });
+        res.status(200).send("Data deleted successfully");
+    } catch (error) {
+        console.error("Error deleting data:", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
 
 module.exports = router;
