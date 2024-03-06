@@ -70,70 +70,53 @@ router.get('/', async (req, res) => {
     try {
         const db = await connect();
         const collection = db.collection("Premiere_League");
-        const results = await collection.find({}).limit(5).toArray();
+        const results = await collection.find({}).limit(2).toArray();
         res.status(200).send(results);
     } catch (error) {
         console.error("Error retrieving data:", error);
         res.status(500).send("Internal Server Error");
     }
 });
-// router.get('/', (req, res) => {
-//     premiereModel.find()
-//         .then((teams) => {
-//             res.send(teams);
-//         })
-//         .catch((error) => {
-//             console.error('Error fetching teams:', error);
-//             res.status(500).send("Error fetching teams");
-//         });
-// });
 
-// router.post('/', (req, res) => {
-//     const newTeamsData = req.body; // 
+router.post('/', async (req, res) => {
+    try {
+        const db = await connect();
+        const collection = db.collection("Premiere_League");
+        const newData = req.body; 
+        await collection.insertOne(newData);
+        res.status(201).send("Data added successfully");
+    } catch (error) {
+        console.error("Error adding data:", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
 
-//     // Insert all new teams into the database
-//     premiereModel.insertMany(teams)
-//         .then((result) => {
-//             console.log('Data saved successfully:', result);
-//             res.send(result); // Send back the saved teams data if needed
-//         })
-//         .catch((error) => {
-//             console.error('Error saving data:', error);
-//             res.status(500).send("Error saving data");
-//         });
-// });
+router.put('/:id', async (req, res) => {
+    try {
+        const db = await connect();
+        const collection = db.collection("Premiere_League");
+        const id = req.params.id;
+        const updatedData = req.body; 
+        await collection.updateOne({ _id: id }, { $set: updatedData });
+        res.status(200).send("Data updated successfully");
+    } catch (error) {
+        console.error("Error updating data:", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
 
-// router.delete('/:id', (req,res) => {
-//     const { id } = req.params;
-//     const numericId = parseInt(id);
-
-//      teams = teams.filter(team => team.id !== numericId)
- 
-//      res.send(`Team with ${numericId} ID is deleted`)
-//  })
-
-//  router.put('/:id', (req,res) => {
-//     const { id } = req.params;
-//     const { name, founded, stadium, city } = req.body
-//     const numericId = parseInt(id);
-
-//     const team = teams.find(team => team.id === numericId);
- 
-//      if (name) {
-//         team.name = name;
-//      }
-//      if (founded) {
-//         team.founded = founded;
-//      }
-//      if (stadium) {
-//         team.stadium = stadium;
-//      }
-//      if (city) {
-//         team.city = city;
-//      }
-
-//      res.send(`Team ${numericId} has updated`)
-//  })
+router.delete('/:id', async (req, res) => {
+    try {
+        const db = await connect();
+        const collection = db.collection("Premiere_League");
+        const id = req.params.id;
+        await collection.deleteOne({ _id: id });
+        res.status(200).send("Data deleted successfully");
+    } catch (error) {
+        console.error("Error deleting data:", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
 
 
 module.exports = router;
