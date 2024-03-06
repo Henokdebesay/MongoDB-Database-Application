@@ -9,6 +9,7 @@ const mongoose = require('mongoose');
 const laLigaModel = require('./schemas/laLiga');
 const premiereModel = require('./schemas/premiereLeague');
 const seriaModel = require('./schemas/seriaA');
+const MongoClient = require("mongodb")
 
 const MONGO_URL = process.env.MONGO_URL
 

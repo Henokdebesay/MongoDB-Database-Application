@@ -8,15 +8,22 @@ const laLigaSchema = new mongoose.Schema({
   city: String
 }, { collection: 'laLigaTeams' });;
 
+const LaLiga = mongoose.model('LaLiga', laLigaSchema);
+
+
 // Create a model from the schema
  const laLigaModel = mongoose.model('laLigaModel', laLigaSchema);
 
-const newTeam = new laLigaModel({
+ 
+ const newTeam = new laLigaModel({
     "name": "Real Madrid",
     "founded": 1902,
     "stadium": "Santiago Bernabéu Stadium",
     "city": "Madrid, Spain"
   });
+
+  laLigaModel.createCollection();
+
 
   // newTeam.insertMany()
   // .then((result) => {

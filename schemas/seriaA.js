@@ -8,6 +8,9 @@ const seriaSchema = new mongoose.Schema({
   city: String
 }, { collection: 'seriaTeams' });;
 
+const Seria = mongoose.model('Seria', seriaSchema);
+
+
 // Create a model from the schema
  const seriaModel = mongoose.model('seriaModel', seriaSchema);
 
@@ -17,6 +20,9 @@ const newTeam = new seriaModel({
     "stadium": "Allianz Stadium",
     "city": "Turin, Italy"
   });
+
+seriaModel.createCollection();
+
 
   // newTeam.insertMany()
   // .then((result) => {

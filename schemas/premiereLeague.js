@@ -8,8 +8,12 @@ const premiereSchema = new mongoose.Schema({
   city: String
 }, { collection: 'premiereTeams' });
 
+const Premiere = mongoose.model('Premiere', premiereSchema);
+
+
 // Create a model from the schema
  const premiereModel = mongoose.model('premiereModel', premiereSchema);
+
 
 const newTeam = new premiereModel({
     "name": "Manchester United",
@@ -17,6 +21,9 @@ const newTeam = new premiereModel({
     "stadium": "Old Trafford",
     "city": "Manchester, England"
   });
+
+premiereModel.createCollection();
+
 
   // newTeam.insertMany()
   // .then((result) => {
