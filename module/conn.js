@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 
 // Connection URL
-const url = 'mongodb+srv://henokdebesay1:henokdebesay1@cluster0.jme2bid.mongodb.net/';
+const url = 'mongodb+srv://<username>:<password>@cluster0.jme2bid.mongodb.net/';
 
 // Database Name
 const dbName = 'Football_Leagues';
